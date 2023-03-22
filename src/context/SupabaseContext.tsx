@@ -9,6 +9,7 @@ import {
 } from "@supabase/supabase-js";
 import "react-native-url-polyfill/auto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DatabaseType } from "../types/databaseTypes";
 
 const SUPABASE_URL = "https://ebbuynmmekaybrilfldy.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -16,7 +17,7 @@ const SUPABASE_ANON_KEY =
 
 type SupabaseContextType = {
   user: User | null;
-  supabaseClient: SupabaseClient | null;
+  supabaseClient: SupabaseClient<DatabaseType, "public", any> | null;
 };
 
 export const SupabaseContext = createContext<SupabaseContextType>({
@@ -26,20 +27,26 @@ export const SupabaseContext = createContext<SupabaseContextType>({
 
 const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [supabaseClient, setSupabaseClient] = useState<SupabaseClient | null>(
-    null
-  );
+  const [supabaseClient, setSupabaseClient] = useState<SupabaseClient<
+    DatabaseType,
+    "public",
+    any
+  > | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        storage: AsyncStorage,
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: false,
-      },
-    });
+    const supabase = createClient<DatabaseType>(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY,
+      {
+        auth: {
+          storage: AsyncStorage,
+          autoRefreshToken: true,
+          persistSession: true,
+          detectSessionInUrl: false,
+        },
+      }
+    );
     setSupabaseClient(supabase);
     async function fetchSession() {
       // setLoading(true);
