@@ -9,7 +9,7 @@ import {
 } from "@supabase/supabase-js";
 import "react-native-url-polyfill/auto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DatabaseType } from "../types/databaseTypes";
+import { DatabaseType } from "../schema/databaseTypes";
 
 const SUPABASE_URL = "https://ebbuynmmekaybrilfldy.supabase.co";
 const SUPABASE_ANON_KEY =
