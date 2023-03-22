@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import React, { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { setLoggedIn } from "../../store/UserSlice";
-import { DeleteKey } from "../../utils/SecureStorage";
 import { SupabaseContext } from "../../context/SupabaseContext";
+import Header from "../../components/HomeComponents/Header";
+import ChatList from "../../components/HomeComponents/ChatList";
 
 const HomeScreen = () => {
   const { supabaseClient, user } = useContext(SupabaseContext);
@@ -13,8 +12,12 @@ const HomeScreen = () => {
   }
   return (
     <View style={styles.root}>
-      <Text>HomeScreen</Text>
-      <Button title="Log out" onPress={logout} />
+      <View style={styles.headerContainer}>
+        <Header />
+      </View>
+      <View style={styles.chatContainer}>
+        <ChatList />
+      </View>
     </View>
   );
 };
@@ -27,4 +30,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  headerContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chatContainer: {
+    flex: 9,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
+

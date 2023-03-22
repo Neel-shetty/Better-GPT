@@ -16,7 +16,6 @@ const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const { user } = useContext(SupabaseContext);
-  console.log("🚀 ~ file: Navigator.tsx:19 ~ Navigator ~ user:", user)
 
   return (
     <NavigationContainer>

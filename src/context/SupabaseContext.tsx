@@ -30,10 +30,6 @@ const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
     null
   );
   const [loading, setLoading] = useState(true);
-  console.log(
-    "🚀 ~ file: SupabaseContext.tsx:33 ~ SupabaseProvider ~ loading:",
-    loading
-  );
 
   useEffect(() => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
