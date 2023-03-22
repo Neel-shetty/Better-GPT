@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-expo-boilerplate-with-login",
-    "slug": "react-native-expo-boilerplate-with-login",
+    "name": "better-gpt",
+    "slug": "Better GPT",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

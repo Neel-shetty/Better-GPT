@@ -5,17 +5,20 @@ import { store } from "./src/store/index";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AppLoading } from "./src/utils/AppLoading";
+import SupabaseProvider from "./src/context/SupabaseContext";
 
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <AppLoading>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Navigator />
-        </QueryClientProvider>
-      </Provider>
+      <SupabaseProvider>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <Navigator />
+          </QueryClientProvider>
+        </Provider>
+      </SupabaseProvider>
     </AppLoading>
   );
 }

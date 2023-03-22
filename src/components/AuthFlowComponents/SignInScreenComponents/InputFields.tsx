@@ -6,7 +6,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CustomInput from "../CustomInput";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -17,19 +17,19 @@ import { SaveKey } from "../../../utils/SecureStorage";
 import { setLoggedIn } from "../../../store/UserSlice";
 import { SignInApi } from "../../../api/AuthenticateUser";
 import PrimaryButton from "../../CommonComponents/PrimaryButton";
+import { SupabaseContext } from "../../../context/SupabaseContext";
 
 const InputFields = () => {
   const [loading, setLoading] = useState(false);
+
+  const { supabaseClient } = useContext(SupabaseContext);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
 
   const formScheme = yup.object({
-    phone: yup
-      .string()
-      .length(10, "Invalid Phone Number")
-      .required("Phone Number is Required!"),
+    email: yup.string().email(),
     password: yup
       .string()
       .required("Password is required!")
@@ -44,31 +44,35 @@ const InputFields = () => {
   return (
     <View>
       <Formik
-        initialValues={{ phone: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         onSubmit={async (values) => {
           console.log(
             "🚀 ~ file: InputFields.tsx:49 ~ onSubmit={ ~ values:",
             values
           );
           setLoading(true);
-          //delete this later
-          dispatch(setLoggedIn(true));
-          const idk = await SaveKey("loggedIn", "true");
-          console.log("🚀 ~ file: InputFields.tsx:57 ~ onSubmit={ ~ idk:", idk);
-          //delete ends
-          const result = await SignInApi({
+          supabaseClient?.auth.signInWithPassword({
+            email: values.email,
             password: values.password,
-            phone: values.phone,
           });
-          if (result?.status === 1) {
-            Alert.alert("Success", result.message);
-            await SaveKey("isLoggedIn", "true");
-            await SaveKey("id", JSON.stringify(result.data.id));
-            dispatch(setLoggedIn(true));
-          }
-          if (result?.response?.data?.status === 0) {
-            Alert.alert("Failed", result.response.data.message);
-          }
+          // //delete this later
+          // dispatch(setLoggedIn(true));
+          // const idk = await SaveKey("loggedIn", "true");
+          // console.log("🚀 ~ file: InputFields.tsx:57 ~ onSubmit={ ~ idk:", idk);
+          // //delete ends
+          // const result = await SignInApi({
+          //   password: values.password,
+          //   phone: values.phone,
+          // });
+          // if (result?.status === 1) {
+          //   Alert.alert("Success", result.message);
+          //   await SaveKey("isLoggedIn", "true");
+          //   await SaveKey("id", JSON.stringify(result.data.id));
+          //   dispatch(setLoggedIn(true));
+          // }
+          // if (result?.response?.data?.status === 0) {
+          //   Alert.alert("Failed", result.response.data.message);
+          // }
           setLoading(false);
         }}
         validationSchema={formScheme}
@@ -88,14 +92,14 @@ const InputFields = () => {
             )}
             <KeyboardAvoidingView behavior={behavior}>
               <CustomInput
-                onChangeText={handleChange("phone")}
-                onBlur={handleBlur("phone")}
-                value={values.phone}
-                placeholder="Phone Number"
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                placeholder="Email"
               />
-              {errors.phone && touched.phone && (
+              {errors.email && touched.email && (
                 <>
-                  <Text>{errors.phone}</Text>
+                  <Text>{errors.email}</Text>
                 </>
               )}
               <CustomInput
