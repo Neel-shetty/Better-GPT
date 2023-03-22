@@ -29,7 +29,11 @@ const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
   const [supabaseClient, setSupabaseClient] = useState<SupabaseClient | null>(
     null
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  console.log(
+    "🚀 ~ file: SupabaseContext.tsx:33 ~ SupabaseProvider ~ loading:",
+    loading
+  );
 
   useEffect(() => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -42,7 +46,7 @@ const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
     });
     setSupabaseClient(supabase);
     async function fetchSession() {
-      setLoading(true);
+      // setLoading(true);
       const { data, error } = await supabase.auth.getSession();
       if (!data?.session) {
         setLoading(false);
@@ -55,9 +59,14 @@ const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const authListener = supabase.auth.onAuthStateChange(
       (event: AuthChangeEvent, session: Session | null) => {
-        if (event === "SIGNED_IN" && session?.user) {
-          setUser(session.user);
-        } else {
+        console.log(
+          "🚀 ~ file: SupabaseContext.tsx:74 ~ useEffect ~ event:",
+          event
+        );
+        if (event === "SIGNED_IN") {
+          if (session) setUser(session.user);
+        }
+        if (event === "SIGNED_OUT") {
           setUser(null);
         }
       }

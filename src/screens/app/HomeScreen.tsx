@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View, Button } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedIn } from "../../store/UserSlice";
 import { DeleteKey } from "../../utils/SecureStorage";
+import { SupabaseContext } from "../../context/SupabaseContext";
 
 const HomeScreen = () => {
-  const dispatch = useDispatch();
+  const { supabaseClient, user } = useContext(SupabaseContext);
   async function logout() {
-    dispatch(setLoggedIn(false));
-    await DeleteKey('loggedIn')
+    const error = await supabaseClient?.auth.signOut();
+    console.log("🚀 ~ file: HomeScreen.tsx:12 ~ logout ~ error:", error?.error);
   }
   return (
     <View style={styles.root}>
