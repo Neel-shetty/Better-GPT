@@ -65,4 +65,4 @@ export interface DatabaseType {
   };
 }
 
-export type chatType = DatabaseType["public"]["Tables"]["chats"];
+export type chatType = DatabaseType["public"]["Tables"]["chats"]['Row'];

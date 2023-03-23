@@ -45,6 +45,11 @@ const SupabaseProvider = ({ children }: { children: React.ReactNode }) => {
           persistSession: true,
           detectSessionInUrl: false,
         },
+        realtime: {
+          params: {
+            eventsPerSecond: 10,
+          },
+        },
       }
     );
     setSupabaseClient(supabase);

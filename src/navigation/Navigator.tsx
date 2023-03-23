@@ -11,6 +11,7 @@ import { setLoggedIn } from "../store/UserSlice";
 import SignUpScreen from "../screens/Auth/SignUpScreen";
 import OnBoardingScreen from "../screens/Auth/OnBoardingScreen";
 import { SupabaseContext } from "../context/SupabaseContext";
+import ChatScreen from "../screens/app/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,10 @@ const Navigator = () => {
             <Stack.Screen
               name={DrawerNavigator.name}
               component={DrawerNavigator.component}
+            />
+            <Stack.Screen
+              name={ChatScreen.name}
+              component={ChatScreen.component}
             />
           </>
         ) : (
