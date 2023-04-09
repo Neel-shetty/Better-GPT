@@ -51,28 +51,11 @@ const InputFields = () => {
             values
           );
           setLoading(true);
-          supabaseClient?.auth.signInWithPassword({
+          const res = await supabaseClient?.auth.signInWithPassword({
             email: values.email,
             password: values.password,
           });
-          // //delete this later
-          // dispatch(setLoggedIn(true));
-          // const idk = await SaveKey("loggedIn", "true");
-          // console.log("🚀 ~ file: InputFields.tsx:57 ~ onSubmit={ ~ idk:", idk);
-          // //delete ends
-          // const result = await SignInApi({
-          //   password: values.password,
-          //   phone: values.phone,
-          // });
-          // if (result?.status === 1) {
-          //   Alert.alert("Success", result.message);
-          //   await SaveKey("isLoggedIn", "true");
-          //   await SaveKey("id", JSON.stringify(result.data.id));
-          //   dispatch(setLoggedIn(true));
-          // }
-          // if (result?.response?.data?.status === 0) {
-          //   Alert.alert("Failed", result.response.data.message);
-          // }
+          console.log("🚀 ~ file: InputFields.tsx:58 ~ res:", res);
           setLoading(false);
         }}
         validationSchema={formScheme}
